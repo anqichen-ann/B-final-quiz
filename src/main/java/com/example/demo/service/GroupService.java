@@ -3,12 +3,9 @@ package com.example.demo.service;
 import com.example.demo.dto.Group;
 import com.example.demo.dto.Trainee;
 import com.example.demo.dto.Trainer;
-import com.example.demo.repository.TraineeRepository;
-import com.example.demo.repository.TrainerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -33,7 +30,7 @@ public class GroupService {
         int index = 0;
         for(int i=0; i<groupNumber; i++){
             Group group = new Group();
-            List traineeList = new ArrayList<>();
+            List<Trainee> traineeList = new ArrayList<>();
             List<Trainer> trainerList;
             if(index < traineeLeftNumber){
                 traineeList.addAll(groupTrainees.subList(i*(traineeLength+1),(i+1)*(traineeLength+1)));
