@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.Trainee;
 import com.example.demo.dto.Trainer;
+import com.example.demo.exception.GroupFailedException;
 import com.example.demo.exception.ResourceNotFound;
 import com.example.demo.repository.TraineeRepository;
 import com.example.demo.repository.TrainerRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +18,7 @@ import java.util.Optional;
 public class TrainerService {
     private int ALL_TRAINER_NUMBER = 0;
     private List<Trainer> unGroupedTrainerList = new ArrayList<>();
-    private final List<Trainer> groupedTrainerList = new ArrayList<>();
+    private List<Trainer> groupedTrainerList = new ArrayList<>();
     private final TrainerRepository trainerRepository;
 
     public TrainerService(TrainerRepository trainerRepository) {
@@ -58,5 +60,23 @@ public class TrainerService {
         Optional<Trainer> trainer = trainerRepository.findById(id);
         trainer.orElseThrow(() -> new ResourceNotFound("讲师不存在"));
         trainerRepository.deleteById(id);
+    }
+
+    public List<Trainer> getGroupedTrainerList(){
+        List<Trainer> allTrainers = trainerRepository.findAll();
+        Collections.shuffle(allTrainers);
+        int trainerNumber = allTrainers.size();
+        if (trainerNumber < 2 ){
+            throw new GroupFailedException("分组失败");
+        }
+        int ungroupedTrainerNumber = trainerNumber%2;
+        if(ungroupedTrainerNumber == 0){
+            groupedTrainerList = allTrainers;
+            unGroupedTrainerList.clear();
+        }else {
+            groupedTrainerList = allTrainers.subList(0, trainerNumber);
+            unGroupedTrainerList = allTrainers.subList(trainerNumber-1, trainerNumber);
+        }
+        return groupedTrainerList;
     }
 }

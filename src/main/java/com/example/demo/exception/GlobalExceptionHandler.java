@@ -39,6 +39,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
     }
 
+    @ExceptionHandler(GroupFailedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Error handleGroupFailed(GroupFailedException ex){
+        return new Error(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+    }
+
 
 
 }

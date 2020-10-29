@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.Trainee;
+import com.example.demo.exception.GroupFailedException;
 import com.example.demo.exception.ResourceNotFound;
 import com.example.demo.repository.TraineeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +16,7 @@ public class TraineeService {
     private int ALL_TRAINEE_NUMBER = 0;
     private final TraineeRepository traineeRepository;
     private  List<Trainee> unGroupedTraineeList = new ArrayList<>();
-    private final List<Trainee> groupedTraineeList = new ArrayList<>();
+    private  List<Trainee> groupedTraineeList = new ArrayList<>();
 
     public TraineeService(TraineeRepository traineeRepository) {
         this.traineeRepository = traineeRepository;
@@ -64,6 +66,16 @@ public class TraineeService {
         Optional<Trainee> trainee = traineeRepository.findById(id);
         trainee.orElseThrow(() -> new ResourceNotFound("学员不存在"));
         traineeRepository.deleteById(id);
+    }
+
+    public List<Trainee> getGroupedTraineeList(){
+        groupedTraineeList = traineeRepository.findAll();
+        if (groupedTraineeList.size() < 1){
+            throw new GroupFailedException("分组失败");
+        }
+        Collections.shuffle(groupedTraineeList);
+        unGroupedTraineeList.clear();
+        return groupedTraineeList;
     }
 
 
