@@ -34,14 +34,14 @@ public class GroupService {
         for(int i=0; i<groupNumber; i++){
             Group group = new Group();
             List traineeList = new ArrayList<>();
-            List trainerList = new ArrayList<>();
+            List<Trainer> trainerList;
             if(index < traineeLeftNumber){
-                traineeList.add(groupTrainees.subList(i*(traineeLength+1),(i+1)*(traineeLength+1)));
+                traineeList.addAll(groupTrainees.subList(i*(traineeLength+1),(i+1)*(traineeLength+1)));
                 index++;
             }else {
-                traineeList.add(groupTrainees.subList(i*traineeLength+traineeLeftNumber,(i+1)*traineeLength+traineeLeftNumber));
+                traineeList.addAll(groupTrainees.subList(i*traineeLength+traineeLeftNumber,(i+1)*traineeLength+traineeLeftNumber));
             }
-            trainerList.add(groupTrainers.subList(i* TRAINER_GROUP_LENGTH, (i + 1)* TRAINER_GROUP_LENGTH));
+            trainerList = groupTrainers.subList(i* TRAINER_GROUP_LENGTH, (i + 1)* TRAINER_GROUP_LENGTH);
             group.setId(i+1);
             group.setName((i+1) + "组");
             group.setTrainees(traineeList);

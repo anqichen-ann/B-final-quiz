@@ -13,7 +13,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.annotation.Order;
 
 @SpringBootApplication
-@Order(value=2)
 public class FinalQuizApplication implements ApplicationRunner {
 	@Autowired
 	private TraineeRepository traineeRepository;
