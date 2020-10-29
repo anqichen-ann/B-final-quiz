@@ -30,6 +30,7 @@ public class TraineeController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTrainee(@PathVariable("id") long id){
         traineeService.deleteTrainee(id);
     }

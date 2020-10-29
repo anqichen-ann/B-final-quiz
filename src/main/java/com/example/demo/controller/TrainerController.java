@@ -1,12 +1,12 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.Trainee;
 import com.example.demo.dto.Trainer;
 import com.example.demo.service.TrainerService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,5 +24,16 @@ public class TrainerController {
         return trainerService.getUnGroupedTrainerList();
     }
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Trainer createTrainer(@RequestBody @Valid Trainer trainer){
+        return trainerService.createTrainer(trainer);
+    }
 
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTrainer(@PathVariable("id") long id){
+        trainerService.deleteTrainer(id);
+    }
 }
