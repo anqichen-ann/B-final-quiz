@@ -19,7 +19,7 @@ public class TraineeController {
     }
 
     @GetMapping
-    public List<Trainee> getGroupedTrainee(@RequestParam("grouped") Boolean Grouped){
+    public List<Trainee> getUnGroupedTrainee(@RequestParam("grouped") Boolean Grouped){
         return traineeService.getUnGroupedTraineeList();
     }
 
@@ -27,5 +27,10 @@ public class TraineeController {
     @ResponseStatus(HttpStatus.CREATED)
     public Trainee createTrainee(@RequestBody @Valid Trainee trainee){
         return traineeService.createTrainee(trainee);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTrainee(@PathVariable("id") long id){
+        traineeService.deleteTrainee(id);
     }
 }
