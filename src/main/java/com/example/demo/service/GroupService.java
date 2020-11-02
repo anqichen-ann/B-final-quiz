@@ -10,6 +10,7 @@ import java.util.List;
 
 @Service
 public class GroupService {
+    // TODO GTB-知识点: - Service之间不应该互相调用
     private final TrainerService trainerService;
     private final TraineeService traineeService;
 
@@ -19,7 +20,9 @@ public class GroupService {
     }
     private final List<Group> groupList = new ArrayList<>();
 
+    // TODO GTB-工程实践: - 长方法，可以抽成多个方法提高可读性
     public List<Group> group(){
+        // TODO GTB-工程实践: - 常量的声明位置错误
         int TRAINER_GROUP_LENGTH = 2;
         List<Trainee> groupTrainees = traineeService.getGroupedTraineeList();
         List<Trainer> groupTrainers = trainerService.getGroupedTrainerList();
@@ -40,7 +43,9 @@ public class GroupService {
             }
             trainerList = groupTrainers.subList(i* TRAINER_GROUP_LENGTH, (i + 1)* TRAINER_GROUP_LENGTH);
             group.setId(i+1);
+            // TODO GTB-工程实践: - Magic Number
             group.setName((i+1) + "组");
+            // TODO GTB-工程实践: - 注意代码风格，应该加入适量空格
             group.setTrainees(traineeList);
             group.setTrainers(trainerList);
             groupList.add(group);
@@ -49,6 +54,7 @@ public class GroupService {
 
     }
 
+    // TODO GTB-完成度: - 组信息没有使用数据库保存
     public List<Group> getGroupList(){
         return groupList;
     }

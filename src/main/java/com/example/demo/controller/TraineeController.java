@@ -19,6 +19,8 @@ public class TraineeController {
     }
 
     @GetMapping
+    // TODO GTB-工程实践: - 未使用的方法参数
+    // TODO GTB-知识点: - 了解下@GetMapping的params属性
     public List<Trainee> getUnGroupedTrainee(@RequestParam("grouped") Boolean Grouped){
         return traineeService.getUnGroupedTraineeList();
     }

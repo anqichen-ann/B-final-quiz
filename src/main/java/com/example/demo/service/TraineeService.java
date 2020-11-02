@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Service
 public class TraineeService {
+    // TODO GTB-工程实践: - 变量不符合命名规范，应该小写
     private int ALL_TRAINEE_NUMBER = 0;
     private final TraineeRepository traineeRepository;
     private  List<Trainee> unGroupedTraineeList = new ArrayList<>();
@@ -20,6 +21,7 @@ public class TraineeService {
 
     public TraineeService(TraineeRepository traineeRepository) {
         this.traineeRepository = traineeRepository;
+        // TODO GTB-工程实践: - 初始化数据建议不要耦合在代码中
         String[] traineeList = {
                 "成吉思汗", "鲁班七号", "太乙真人",
                 "钟无艳", "花木兰", "雅典娜",
@@ -29,6 +31,7 @@ public class TraineeService {
         };
 
         //TODO 使用Java8 stream
+        // TODO GTB-知识点: - 可以使用Java8 Stream API
         for (int i = 0; i < traineeList.length; i++) {
             Trainee trainee = Trainee.builder()
                     .id(i + 1)
@@ -47,6 +50,7 @@ public class TraineeService {
 
 
     public List<Trainee> getUnGroupedTraineeList(){
+        // TODO GTB-知识点: - 每次请求应该从数据库查询数据
         return this.unGroupedTraineeList;
     }
 
@@ -64,6 +68,7 @@ public class TraineeService {
 
     public void deleteTrainee(long id){
         Optional<Trainee> trainee = traineeRepository.findById(id);
+        // TODO GTB-工程实践: - 异常最好使用Exception结尾
         trainee.orElseThrow(() -> new ResourceNotFound("学员不存在"));
         traineeRepository.deleteById(id);
     }
@@ -74,6 +79,7 @@ public class TraineeService {
             throw new GroupFailedException("分组失败");
         }
         Collections.shuffle(groupedTraineeList);
+        // TODO GTB-工程实践: - 所有数据状态都应该维护在数据库中，不要进行这种内存操作
         unGroupedTraineeList.clear();
         return groupedTraineeList;
     }
